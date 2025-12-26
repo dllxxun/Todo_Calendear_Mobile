@@ -82,3 +82,5 @@ yarn-error.log
 # macOS / Windows 추가
 Thumbs.db
 ehthumbs.db
+
+android/app/google-services.json
