@@ -1,97 +1,91 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📱 Todo & Calendar Mobile App
 
-# Getting Started
+React Native 기반의 **Todo + Calendar 모바일 애플리케이션**입니다.  
+웹 버전과 동일한 Firebase 프로젝트를 사용하여,  
+같은 `todos` 컬렉션과 사용자 데이터를 공유하도록 구현했습니다.  
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+Android 에뮬레이터(또는 실제 기기)에서 실행되며,  
+Firebase Authentication(익명 로그인) + Cloud Firestore 연동을 포함합니다.
 
-## Step 1: Start Metro
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## ✨ Feature
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- 🔐 **Authentication**
+  - Firebase Authentication 기반 **익명 로그인 / 로그아웃**
+  - 로그인 상태를 실시간으로 감시하여 화면 전환
 
-```sh
-# Using npm
-npm start
+- 📅 **Calendar & Todo (모바일용)**
+  - 캘린더에서 날짜 선택
+  - 선택한 날짜 기준으로 Todo 추가
+  - 선택한 날짜의 Todo 목록 표시
+  - Todo 완료 상태 토글(미완료 ↔ 완료), 삭제 기능
 
-# OR using Yarn
-yarn start
+- 🔗 **Firebase 연동**
+  - 웹 앱과 **동일한 Firestore `todos` 컬렉션** 사용
+  - `title`, `dueDate("YYYY-MM-DD")`, `isCompleted`, `createdAt` 필드 구조 공유
+
+
+## 🛠 Tech Stack
+
+- **Mobile**: React Native (React Native CLI)
+- **Backend Service**: Firebase Authentication, Cloud Firestore  
+  - `@react-native-firebase/app`
+  - `@react-native-firebase/auth`
+  - `@react-native-firebase/firestore`
+- **UI**: React Native 기본 컴포넌트, `react-native-calendars`
+
+
+## 🚀 Getting Started
+
+### 1. Installation
+``` bash
+git clone <REPO_URL>
+cd <project-folder> # 예: todo_mobile
+npm install
+```
+Android 개발 환경(ADB, Android Studio, 에뮬레이터)은  
+React Native 공식 문서 환경 설정을 기준으로 구성했습니다.
+
+
+### 2. Firebase 설정
+
+같은 Firebase 프로젝트를 웹/모바일에서 공유합니다.
+
+1. Firebase 콘솔에서 Android 앱을 등록한 뒤  
+   `google-services.json` 파일을 다운로드합니다.
+2. 프로젝트 내 경로에 배치합니다.
+```bash
+android/app/google-services.json
+```
+3. `android/build.gradle`의 `buildscript.dependencies`에 아래 항목이 포함되어야 합니다.
+```bash
+classpath "com.google.gms:google-services:4.4.2"
+```
+4. `android/app/build.gradle` 상단/하단에 Google Services 플러그인을 적용합니다.
+```bash
+plugins {
+id "com.android.application"
+id "com.facebook.react"
+id "com.google.gms.google-services" // 또는 apply plugin 방식
+}
 ```
 
-## Step 2: Build and run your app
+> `google-services.json` 파일은 민감 정보이므로  
+> `.gitignore` 에 포함하여 GitHub에는 업로드하지 않습니다.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-### Android
+### 3. Run on Android
 
-```sh
-# Using npm
+에뮬레이터(또는 실제 기기)를 켜 둔 상태에서:
+```bash
 npm run android
 
-# OR using Yarn
-yarn android
+- 앱 실행 후, **익명 로그인 버튼**을 눌러 로그인
+- 상단에 UID 일부가 표시되고,
+- “웹과 같은 Firestore에서 Todos 가져오기” 버튼으로
+  웹과 동일한 Firestore `todos` 목록을 불러옵니다.
+- 캘린더에서 날짜를 선택하고, 해당 날짜의 할 일을 추가/완료/삭제할 수 있습니다.
 ```
 
-### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
